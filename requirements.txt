@@ -1,0 +1,35 @@
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+jinja2==3.1.2
+pillow==10.1.0
+pytesseract==0.3.10
+PyPDF2==3.0.1
+reportlab==4.0.6
+img2pdf==0.4.4
+gtts==2.3.2        # Google Text-to-Speech
+playsound==1.2.2   # Optional: for playing audio in Python
+pydub==0.25.1      # For audio format manipulation if needed
+# STT Dependencies
+SpeechRecognition==3.10.0
+pydub==0.25.1
+pyaudio==0.2.11  # For microphone input (optional)
+# NLP and Summarization Dependencies
+transformers==4.35.0
+torch==2.1.0
+sentencepiece==0.1.99
+nltk==3.8.1
+scikit-learn==1.3.0
+
+# Question Generation Dependencies
+transformers==4.35.0
+torch==2.5.1 
+sentencepiece==0.1.99
+nltk==3.8.1
+
+# Authentication & Database
+sqlalchemy==2.0.23
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+alembic==1.12.1
+email-validator==2.1.0  # Add this line

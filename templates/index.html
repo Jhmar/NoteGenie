@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteGenie - Your Study Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4rem;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* Creative Notebook-Style Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .notebook-logo {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(145deg, #fbbf24, #f59e0b);
+            border-radius: 8px 8px 12px 12px;
+            box-shadow: 0 10px 15px -5px rgba(245, 158, 11, 0.3);
+            transform: rotate(-2deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .notebook-logo::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 5px;
+            bottom: 5px;
+            width: 4px;
+            background: linear-gradient(to bottom, #ffffff 20%, transparent 20%);
+            background-size: 4px 8px;
+            border-radius: 2px;
+            opacity: 0.7;
+        }
+
+        .notebook-logo i {
+            color: white;
+            font-size: 1.4rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+        }
+
+        .logo-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            bottom: 8px;
+            right: 10px;
+            opacity: 0.8;
+        }
+
+        .logo-spiral {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            top: 8px;
+            right: 8px;
+            transform: rotate(45deg);
+            opacity: 0.6;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #f59e0b;
+        }
+
+        .nav-links .get-started-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+        }
+
+        .nav-links .get-started-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+            color: white;
+        }
+
+        /* Hero Section - Original Copy */
+        .hero {
+            padding: 6rem 4rem;
+            text-align: center;
+            background: linear-gradient(to bottom, white, #fffbeb);
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e293b, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #475569;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #1e293b;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-button:hover {
+            background: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.4);
+        }
+
+        .cta-button i {
+            font-size: 1rem;
+        }
+
+        /* Feature Showcase */
+        .feature-showcase {
+            padding: 4rem;
+            background: white;
+        }
+
+        .showcase-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .showcase-content h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+
+        .showcase-content h2 span {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .showcase-content p {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 2rem;
+        }
+
+        .source-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .source-tag {
+            background: #fffbeb;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid #fde68a;
+        }
+
+        .source-tag i {
+            color: #f59e0b;
+        }
+
+        .feature-preview {
+            background: #fffbeb;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.15);
+            border: 1px solid #fde68a;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .preview-title h4 {
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .preview-title p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .preview-content {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #fde68a;
+        }
+
+        .preview-content h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .preview-content h3 i {
+            color: #f59e0b;
+        }
+
+        .preview-content ul {
+            list-style: none;
+        }
+
+        .preview-content li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #fffbeb;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .preview-content li:last-child {
+            border-bottom: none;
+        }
+
+        .preview-content li i {
+            color: #f59e0b;
+            font-size: 0.9rem;
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 4rem;
+            background: #fffbeb;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #475569;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 1px solid #fde68a;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.2);
+            border-color: #f59e0b;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 4rem;
+            text-align: center;
+            border-top: 1px solid #fde68a;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #f59e0b;
+        }
+
+        .copyright {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 2rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .hero {
+                padding: 4rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="notebook-logo">
+                <i class="fas fa-pen-fancy"></i>
+                <div class="logo-dot"></div>
+                <div class="logo-spiral"></div>
+            </div>
+            <span class="logo-text">NoteGenie</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="/login" class="get-started-btn">✨ Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Original Copy -->
+    <section class="hero" id="home">
+        <h1>
+            <span class="hero-gradient">Your Notes,But Better
+        </h1>
+        <p>Drop any file - PDF, image, lecture recording. Watch as AI transforms your study materials into summaries, practice questions, and audio notes. Your learning, amplified.</p>
+        <a href="/register" class="cta-button">
+            Start Your Journey <i class="fas fa-arrow-right"></i>
+        </a>
+    </section>
+
+    <!-- Feature Showcase -->
+    <section class="feature-showcase">
+        <div class="showcase-grid">
+            <div class="showcase-content">
+                <h2>Throw Anything <span>Our Way</span></h2>
+                <p>PDFs from class, photos of whiteboards, voice memos from lectures - feed it all to NoteGenie. We'll digest everything and serve back the parts that matter.</p>
+                
+                <div class="source-types">
+                    <span class="source-tag"><i class="fas fa-file-pdf"></i> Lecture Slides</span>
+                    <span class="source-tag"><i class="fas fa-image"></i> Whiteboard Pics</span>
+                    <span class="source-tag"><i class="fas fa-headphones"></i> Class Recordings</span>
+                    <span class="source-tag"><i class="fas fa-file-word"></i> Study Notes</span>
+                    <span class="source-tag"><i class="fas fa-file-alt"></i> Research Papers</span>
+                    <span class="source-tag"><i class="fas fa-microphone"></i> Voice Memos</span>
+                </div>
+            </div>
+
+            <div class="feature-preview">
+                <div class="preview-header">
+                    <div class="preview-avatar">
+                        <i class="fas fa-hat-wizard"></i>
+                    </div>
+                    <div class="preview-title">
+                        <h4>NoteGenie Magic</h4>
+                        <p>Working its magic on your file...</p>
+                    </div>
+                </div>
+                <div class="preview-content">
+                    <h3><i class="fas fa-sparkles"></i> What We Found</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Extracted 47 key concepts</li>
+                        <li><i class="fas fa-check-circle"></i> Generated 12 practice questions</li>
+                        <li><i class="fas fa-check-circle"></i> Created 5-min audio summary</li>
+                        <li><i class="fas fa-check-circle"></i> Connected to 3 related topics</li>
+                        <li><i class="fas fa-check-circle"></i> Highlighted 8 exam-worthy points</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>Your AI Study Sidekick</h2>
+            <p>Six ways NoteGenie makes studying feel less like work</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Photo to Text</h3>
+                <p>Snap a pic of any textbook page or handwritten note - we'll turn it into editable text instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <h3>Lecture Capture</h3>
+                <p>Record your professor or upload an audio file. Get a complete written transcript in minutes.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                <h3>Listen & Learn</h3>
+                <p>Turn dense readings into audio you can listen to on your commute or while jogging.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <h3>CliffNotes Mode</h3>
+                <p>Got a 50-page chapter? We'll shrink it to the 5 pages that actually matter for the exam.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Test Predictor</h3>
+                <p>Upload your study guide - we'll generate the questions your professor is most likely to ask.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-simple"></i>
+                </div>
+                <h3>Progress Tracker</h3>
+                <p>See what you've mastered and what needs another look. Your personal study GPS.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <div class="notebook-logo" style="width: 35px; height: 35px;">
+                <i class="fas fa-pen-fancy" style="font-size: 1.2rem;"></i>
+                <div class="logo-dot" style="width: 4px; height: 4px;"></div>
+            </div>
+            <span style="font-size: 1.5rem; font-weight: 600; background: linear-gradient(135deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NoteGenie</span>
+        </div>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/contact">Contact</a>
+        </div>
+        <div class="copyright">
+            © 2024 NoteGenie. Study smarter, not harder.
+        </div>
+    </footer>
+</body>
+</html>
